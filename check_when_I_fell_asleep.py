@@ -1,6 +1,7 @@
 import subprocess, shlex
 from datetime import timezone
 from time import strftime
+from twilio_manager import TwilioApi
 import datetime
 import signal
 
@@ -31,8 +32,23 @@ def check_logfile_bash():
 	dates = [d for d in data if "TurnedOff" in d]
 	return dates
 
+def twilio():
+	twil = TwilioApi()
+	body="What hour(0-23) did you wake up?"
+	# twil.send_text(body)
+	twil.get_message_responses()
+
+	# Get response and check whether he got < 7 hours of sleep
+	# if yes:
+	#     body = "You need to meditate or take a nap."
+	# else:
+	#     body = "You do not need to take a nap, but still meditating is good to do everyday."
+	# send_text(body)
+
 if __name__ == '__main__':
 	signal.signal(signal.SIGINT, exit_function)
+	# Playing around with twilio
+	twilio()
 	# Get date and time now
 	dt = datetime.datetime.now()
 	change_hour = input_hour(dt)
